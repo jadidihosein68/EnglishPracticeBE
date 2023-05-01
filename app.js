@@ -1,10 +1,14 @@
+const dotenv = require('dotenv');
 const express = require('express');
 const cors = require('cors');
 const fs = require('fs');
 
 const app = express();
 
-const allowedOrigins = ['http://localhost:4200'];
+const envFile = process.env.NODE_ENV === 'production' ? '.env.prod' : '.env.dev';
+dotenv.config({ path: envFile });
+
+const allowedOrigins = [process.env.ALLOWED_ORIGIN];
 
 app.use(cors({
   origin: function (origin, callback) {
