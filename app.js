@@ -1,41 +1,46 @@
+require('express-async-errors');
+const winstonlogger= require('./sturtup/winstonlogger');
+const DebugMessage = require('debug')('app:startup');
+
 const dotenv = require('dotenv');
 const express = require('express');
-const cors = require('cors');
-const fs = require('fs');
-
-const app = express();
-
+const Auth = require('./middleware/auth');
+const jwt = require('jsonwebtoken');
 const envFile = process.env.NODE_ENV === 'production' ? '.env.prod' : '.env.dev';
 dotenv.config({ path: envFile });
+const app = express();
 
-const allowedOrigins = [process.env.ALLOWED_ORIGIN];
+require('./sturtup/routes')(app);
+require('./sturtup/db')();
+require('./sturtup/config')();
 
-app.use(cors({
-  origin: function (origin, callback) {
-    if (!origin || allowedOrigins.indexOf(origin) !== -1) {
-      callback(null, true);
-    } else {
-      callback(new Error('Not allowed by CORS'));
-    }
-  }
-}));
 
-app.get('/getvocabulary', (req, res) => {
-  fs.readFile('vocabulary.txt', 'utf8', (err, data) => {
-    if (err) {
-      res.status(500).json({ message: 'Error reading the vocabulary file.' });
-    } else {
-      try {
-        const vocabulary = JSON.parse(data);
-        res.status(200).json(vocabulary);
-      } catch (error) {
-        res.status(500).json({ message: 'Error parsing the vocabulary file.' });
-      }
-    }
-  });
+
+
+process.on('uncaughtException', (ex)=>{ // capture un handeled exception on the scope out of express
+  winstonlogger.error(ex.message,ex);
 });
 
 
+process.on('unhandledRejection', (ex)=>{ // capture un handeled exception on the scope out of express
+  winstonlogger.error(ex.message,ex);
+});
+
+
+
+
+const allowedOrigins = [process.env.ALLOWED_ORIGIN];
+
+
+
+
+//////////////////
+app.get('/api/ping', (req, res) => { // test api 
+  res.send("I am alive");
+
+});
+
+//////////////////
 app.listen(3000, () => {
   console.log('Server is running on port 3000');
 });
