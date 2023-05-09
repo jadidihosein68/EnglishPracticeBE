@@ -2,7 +2,6 @@ const express = require('express');
 const router = express.Router();
 const { ProductPlan } = require('../model/ProductPlan');
 
-// Get all product plans
 router.get('/', async (req, res) => {
   try {
     const productPlans = await ProductPlan.find();
@@ -12,7 +11,7 @@ router.get('/', async (req, res) => {
   }
 });
 
-// Get a product plan by ID
+
 router.get('/:id', async (req, res) => {
   const planId = req.params.id;
 

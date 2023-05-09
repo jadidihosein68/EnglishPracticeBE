@@ -1,0 +1,68 @@
+{
+    "User": {
+        "_id": "ObjectId",
+        "username": "String",
+        "email": "String",
+        "password": "String",
+        "premium": "Boolean",
+        "progress": [
+            {
+                "flashcardSetId": "ObjectId (FlashcardSet)",
+                "lastStudied": "Date",
+                "performance": {
+                    "correct": "Number",
+                    "incorrect": "Number"
+                }
+            }
+        ],
+        "flashcardSets": ["ObjectId (FlashcardSet)"],
+        "createdAt": "Date",
+        "updatedAt": "Date"
+    },
+    "FlashcardSet": {
+        "_id": "ObjectId",
+        "title": "String",
+        "subject": "String",
+        "createdBy": "ObjectId (User)",
+        "public": "Boolean",
+        "flashcards": ["ObjectId (Flashcard)"],
+        "createdAt": "Date",
+        "updatedAt": "Date"
+    },
+    "Flashcard": {
+        "_id": "ObjectId",
+        "front": "String",
+        "back": "String",
+        "hints": ["String"],
+        "media": "String",
+        "flashcardSetId": "ObjectId (FlashcardSet)",
+        "createdAt": "Date",
+        "updatedAt": "Date"
+    },
+    "Tutor": {
+        "_id": "ObjectId",
+        "name": "String",
+        "subject": "String",
+        "ratings": ["Number"],
+        "bio": "String",
+        "availability": "String",
+        "createdAt": "Date",
+        "updatedAt": "Date"
+    },
+    "Session": {
+        "_id": "ObjectId",
+        "tutorId": "ObjectId (Tutor)",
+        "userId": "ObjectId (User)",
+        "scheduledTime": "Date",
+        "duration": "Number",
+        "createdAt": "Date",
+        "updatedAt": "Date"
+    },
+    "Subscription": {
+        "_id": "ObjectId",
+        "userId": "ObjectId (User)",
+        "flashcardSetId": "ObjectId (FlashcardSet)",
+        "startDate": "Date",
+        "endDate": "Date"
+    }
+}

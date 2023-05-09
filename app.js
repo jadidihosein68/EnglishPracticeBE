@@ -1,18 +1,16 @@
 require('express-async-errors');
 const winstonlogger= require('./sturtup/winstonlogger');
 const DebugMessage = require('debug')('app:startup');
-
 const dotenv = require('dotenv');
 const express = require('express');
-const Auth = require('./middleware/auth');
-const jwt = require('jsonwebtoken');
 const envFile = process.env.NODE_ENV === 'production' ? '.env.prod' : '.env.dev';
 dotenv.config({ path: envFile });
 const app = express();
 
+require('./sturtup/config')();
+require('./sturtup/prod')(app);
 require('./sturtup/routes')(app);
 require('./sturtup/db')();
-require('./sturtup/config')();
 
 
 
@@ -25,13 +23,6 @@ process.on('uncaughtException', (ex)=>{ // capture un handeled exception on the 
 process.on('unhandledRejection', (ex)=>{ // capture un handeled exception on the scope out of express
   winstonlogger.error(ex.message,ex);
 });
-
-
-
-
-const allowedOrigins = [process.env.ALLOWED_ORIGIN];
-
-
 
 
 //////////////////
