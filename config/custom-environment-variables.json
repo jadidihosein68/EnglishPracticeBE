@@ -1,0 +1,7 @@
+{
+    "name":"English Learner !",
+    "jwtPrivateKey":"myjwt",
+    "Google_CLIENT_ID":"myid",
+    "db":"mydb"
+
+}
