@@ -1,6 +1,6 @@
 {
     "name":"English Learner !",
     "jwtPrivateKey":"",
-    "Google_CLIENT_ID":"",
-    "db":""
+    "Google_CLIENT_ID":"484860199419-k6m26l1ol971kbjhg2cr3f53hteljtlt.apps.googleusercontent.com",
+    "db":"mongodb+srv://Hossein:admin123@flashcard.wqierxh.mongodb.net/"
 }

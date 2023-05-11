@@ -2,6 +2,5 @@
     "name":"English Learner !",
     "jwtPrivateKey":"mysecurekey",
     "Google_CLIENT_ID":"484860199419-k6m26l1ol971kbjhg2cr3f53hteljtlt.apps.googleusercontent.com",
-    "db":"mongodb+srv://Hossein:admin123@flashcard.wqierxh.mongodb.net/",
-    "dbalt":"mongodb://127.0.0.1:27017/tdb"
+    "db":"mongodb://127.0.0.1:27017/tdb"
 }

@@ -1,10 +1,7 @@
 require('express-async-errors');
 const winstonlogger= require('./sturtup/winstonlogger');
 const DebugMessage = require('debug')('app:startup');
-const dotenv = require('dotenv');
 const express = require('express');
-const envFile = process.env.NODE_ENV === 'production' ? '.env.prod' : '.env.dev';
-dotenv.config({ path: envFile });
 const app = express();
 
 require('./sturtup/config')();
