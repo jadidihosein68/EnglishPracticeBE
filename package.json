@@ -9,6 +9,9 @@
     "start:dev": "cross-env NODE_ENV=development node app.js",
     "start:prod": "cross-env NODE_ENV=production node app.js"
   },
+  "engines": {
+    "node": "v18.13.0"
+  },
   "author": "Hossein Jadidi",
   "license": "ISC",
   "dependencies": {
