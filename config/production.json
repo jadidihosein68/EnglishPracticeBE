@@ -1,3 +1,6 @@
 {
-    "name":"English Learner !"
+    "name":"English Learner !",
+    "jwtPrivateKey":"",
+    "Google_CLIENT_ID":"",
+    "db":""
 }
