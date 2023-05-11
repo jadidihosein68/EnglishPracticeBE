@@ -1,11 +1,12 @@
 const winston= require('winston');
 require('winston-mongodb');
+const config = require('config');
 
 module.exports = winston.createLogger({
     transports: [
         new winston.transports.Console({level: 'error'})
         ,new winston.transports.MongoDB({
-            db:'mongodb://127.0.0.1:27017/tdb',
+            db:config.get("db"),
             level: 'error',
             option : { useUnifiedTopology: true }
         })
