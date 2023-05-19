@@ -6,6 +6,7 @@ const FlashcardSet = mongoose.model('FlashcardSet', new mongoose.Schema({
     subject: String,
     createdBy: mongoose.Schema.Types.ObjectId,
     public: Boolean,
+    author: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
     flashcards: [{
         front: String,
         back: String,
@@ -24,6 +25,7 @@ function validateFlashcardSet(flashcardSet) {
         title: Joi.string().min(3).required(),
         subject: Joi.string().min(3).required(),
         public: Joi.boolean(),
+        author: Joi.string().required(), 
         flashcards: Joi.array().items(Joi.object({
             front: Joi.string().required(),
             back: Joi.string().required(),
