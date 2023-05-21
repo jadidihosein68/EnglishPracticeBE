@@ -10,6 +10,7 @@ const User = mongoose.model('User', new mongoose.Schema({
     googleId: String,
     bio: String,
     premium: Boolean,
+    roles: [String],
     progress: [{
         flashcardSetId: mongoose.Schema.Types.ObjectId,
         lastStudied: Date,

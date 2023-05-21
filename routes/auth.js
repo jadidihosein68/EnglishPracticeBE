@@ -13,6 +13,7 @@ function jwtGenerator(user) {
       _id: user._id,
       name: user.name,
       email: user.email,
+      roles: user.roles
       // Add any other user information you'd like to include in the token
     };
   
@@ -38,6 +39,7 @@ router.post('/', async (req, res) => {
           name: payload.name,
           email: payload.email,
           googleId: payload.sub,
+          roles :["Learner"]
           // Add any other user information you'd like to store
         });
         await user.save();

@@ -3,9 +3,14 @@ const Joi = require('joi');
 
 const FlashcardSet = mongoose.model('FlashcardSet', new mongoose.Schema({
     title: String,
-    subject: String,
+    description: String,
+    imageUrl: String,
     createdBy: mongoose.Schema.Types.ObjectId,
-    public: Boolean,
+    ispublic: Boolean,
+    status: {
+        type: String,
+        default: 'Draft'
+    },
     author: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
     flashcards: [{
         front: String,
@@ -21,18 +26,21 @@ const FlashcardSet = mongoose.model('FlashcardSet', new mongoose.Schema({
 }));
 
 function validateFlashcardSet(flashcardSet) {
-    const schema = {
+    const schema = Joi.object({
         title: Joi.string().min(3).required(),
-        subject: Joi.string().min(3).required(),
-        public: Joi.boolean(),
-        author: Joi.string().required(), 
+        description: Joi.string().min(3),
+        imageUrl : Joi.string().min(5).required(),
+        ispublic: Joi.boolean(),
+      //  author: Joi.string().required(),
         flashcards: Joi.array().items(Joi.object({
             front: Joi.string().required(),
             back: Joi.string().required(),
         })),
-    };
-    return Joi.validate(flashcardSet, schema);
+    });
+
+    return schema.validate(flashcardSet);
 }
+
 
 exports.FlashcardSet = FlashcardSet;
 exports.validateFlashcardSet = validateFlashcardSet;
