@@ -18,6 +18,7 @@ module.exports=function(app){
     app.use(cors());
     app.use('/api/productplan',plan);
     app.use('/api/getvocabulary',flashcard);
+    app.use('/api/flashcard',flashcard);
     app.use('/api/auth/LoginWithGoogle',auth);
     app.use('/api/flashcardSet',flashcardSet);
     app.use('/api/tutor',tutor);

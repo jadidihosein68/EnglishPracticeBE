@@ -1,6 +1,10 @@
 const express = require("express");
 const router = express.Router();
 const fs = require('fs');
+const { validateFlashcard } = require('../model/Flashcard');
+
+const { FlashcardSet, validateFlashcardSet } = require('../model/FlashcardSet');
+
 
 router.get('/', (req, res) => {
     fs.readFile('vocabulary.txt', 'utf8', (err, data) => {
@@ -21,7 +25,7 @@ router.get('/', (req, res) => {
 
 
 
-  router.post('/:id/flashcards', async (req, res) => {
+  router.post('/flashcardset/:id', async (req, res) => {
     // First, validate the incoming flashcard data
     const { error } = validateFlashcard(req.body);
     if (error) return res.status(400).send(error.details[0].message);

@@ -5,7 +5,7 @@ const Joi = require('joi');
 const Flashcard = mongoose.model('Flashcard', new mongoose.Schema({
     front: String,
     back: String,
-    hints: [String],
+    hints: String,
     media: String,
     flashcardSetId: mongoose.Schema.Types.ObjectId,
     createdAt: {
@@ -13,17 +13,20 @@ const Flashcard = mongoose.model('Flashcard', new mongoose.Schema({
         default: Date.now
     },
     updatedAt: Date,
+    soundIsActive: Boolean,
 }));
 
 function validateFlashcard(flashcard) {
-    const schema = {
+    const schema = Joi.object({
         front: Joi.string().required(),
         back: Joi.string().required(),
-        hints: Joi.array().items(Joi.string()),
+        hints: Joi.string(),
         media: Joi.string(),
         flashcardSetId: Joi.string().required(),
-    };
-    return Joi.validate(flashcard, schema);
+        soundIsActive: Joi.boolean()
+    });
+    //return Joi.validate(flashcard, schema);
+    return schema.validate(flashcard);
 }
 
 exports.Flashcard = Flashcard;
