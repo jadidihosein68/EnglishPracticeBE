@@ -5,6 +5,7 @@ const FlashcardSet = mongoose.model('FlashcardSet', new mongoose.Schema({
     title: String,
     description: String,
     imageUrl: String,
+    subject: String,
     createdBy: mongoose.Schema.Types.ObjectId,
     ispublic: Boolean,
     status: {
@@ -27,14 +28,16 @@ const FlashcardSet = mongoose.model('FlashcardSet', new mongoose.Schema({
 
 function validateFlashcardSet(flashcardSet) {
     const schema = Joi.object({
+        //_id: Joi.string(),
         title: Joi.string().min(3).required(),
         description: Joi.string().min(3),
         imageUrl : Joi.string().min(5).required(),
         ispublic: Joi.boolean(),
-      //  author: Joi.string().required(),
+        status: Joi.string(),
+        subject: Joi.string(),
         flashcards: Joi.array().items(Joi.object({
-            front: Joi.string().required(),
-            back: Joi.string().required(),
+        front: Joi.string().required(),
+        back: Joi.string().required(),
         })),
     });
 
