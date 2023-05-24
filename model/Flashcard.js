@@ -22,7 +22,7 @@ function validateFlashcard(flashcard) {
         back: Joi.string().required(),
         hints: Joi.string(),
         media: Joi.string(),
-        flashcardSetId: Joi.string().required(),
+        flashcardSetId: Joi.string(),
         soundIsActive: Joi.boolean()
     });
     //return Joi.validate(flashcard, schema);
