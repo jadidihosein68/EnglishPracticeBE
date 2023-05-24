@@ -16,7 +16,7 @@ const FlashcardSet = mongoose.model('FlashcardSet', new mongoose.Schema({
     flashcards: [{
         front: String,
         back: String,
-        hints: [String],
+        hints: String,
         media: String
     }],
     createdAt: {
@@ -38,6 +38,7 @@ function validateFlashcardSet(flashcardSet) {
         flashcards: Joi.array().items(Joi.object({
         front: Joi.string().required(),
         back: Joi.string().required(),
+        hints : Joi.string(),
         })),
     });
 
