@@ -57,6 +57,29 @@ router.put('/:id', async (req, res) => {
   }
 });
 
+
+
+router.put('/publish/:id', async (req, res) => {
+  try {
+    // Find the flashcard set and update the status field
+    const flashcardSet = await FlashcardSet.findByIdAndUpdate(
+      req.params.id, 
+      { status: 'Published' }, 
+      { new: true }
+    );
+
+    // Check if the flashcard set was found and updated
+    if (!flashcardSet) return res.status(404).send('Flashcard set with the given ID was not found.');
+
+    res.status(200).send(flashcardSet);
+  } catch (ex) {
+    res.status(500).send('Error publishing flashcard set');
+  }
+});
+
+
+
+
 router.delete('/:id', async (req, res) => {
   try {
     const flashcardSet = await FlashcardSet.findByIdAndRemove(req.params.id);

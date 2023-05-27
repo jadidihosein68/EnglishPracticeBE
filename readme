@@ -7,3 +7,21 @@ DB pass : admin123
     "db":"mongodb+srv://Hossein:admin123@flashcard.wqierxh.mongodb.net/"
 
     
+
+
+
+Status : 
+Draft : user havnt publish
+Publish : user published 
+Lock : admin lock so no one can see it except admin 
+
+
+UserTagStatus : 
+Archive : user archive it. 
+
+
+
+
+
+
+
