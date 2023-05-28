@@ -1,8 +1,7 @@
-
 const mongoose = require('mongoose');
 const Joi = require('joi');
 
-const Subscription = mongoose.model('Subscription', new mongoose.Schema({
+const Rating = mongoose.model('Rating', new mongoose.Schema({
     userId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
@@ -13,28 +12,27 @@ const Subscription = mongoose.model('Subscription', new mongoose.Schema({
         ref: 'FlashcardSet',
         required: true,
     },
-    subscribedOn: {
+    rating: {
+        type: Number,
+        required: true,
+        min: 1,
+        max: 5
+    },
+    createdAt: {
         type: Date,
         default: Date.now
     },
-    endDate: Date,
+    updatedAt: Date,
 }));
 
-function validateSubscription(subscription) {
+function validateRating(rating) {
     const schema = Joi.object({
         userId: Joi.string().required(),
         flashcardSetId: Joi.string().required(),
-        lastAccessed: Joi.date(),
-        userEngagement: Joi.number(),
-        endDate: Joi.date().required(),
+        rating: Joi.number().min(1).max(5).required()
     });
-    return schema.validate(subscription);
+    return schema.validate(rating);
 }
 
-exports.Subscription = Subscription;
-exports.validateSubscription = validateSubscription;
-
-
-
-
-
+exports.Rating = Rating;
+exports.validateRating = validateRating;
