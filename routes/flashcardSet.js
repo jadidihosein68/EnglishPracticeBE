@@ -13,6 +13,16 @@ router.get('/', async (req, res) => {
   }
 });
 
+
+router.get('/publishedlist', async (req, res) => {
+  try {
+    const flashcardSets = await FlashcardSet.find({ status: 'Published' });
+    res.status(200).json(flashcardSets);
+  } catch (error) {
+    res.status(500).send('Error retrieving flashcard sets');
+  }
+});
+
 router.get('/:id', async (req, res) => {
   const setId = req.params.id;
 
