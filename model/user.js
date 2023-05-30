@@ -20,12 +20,21 @@ const User = mongoose.model('User', new mongoose.Schema({
         }
     }],
 
-    subscriptions: [{
+    subscribedFlashCardSets: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'FlashcardSet'
     }],
 
-    flashcardSets: [mongoose.Schema.Types.ObjectId],
+    createdFlashCardSets: [{ 
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'FlashcardSet'
+    }],
+
+    coCreatedflashcardsets: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'FlashcardSet'
+    }],
+
     createdAt: {
         type: Date,
         default: Date.now

@@ -1,10 +1,14 @@
 const express = require('express');
+const mongoose = require('mongoose');
 const router = express.Router();
+const authmiddleware = require("../middleware/auth");
+const {User} = require('../model/user');
+
 
 
 const { FlashcardSet, validateFlashcardSet } = require('../model/FlashcardSet');
 
-router.get('/', async (req, res) => {
+router.get('/workshop',authmiddleware, async (req, res) => {
   try {
     const flashcardSets = await FlashcardSet.find();
     res.status(200).json(flashcardSets);
@@ -18,7 +22,7 @@ router.get('/publishedlist', async (req, res) => {
   try {
     const flashcardSets = await FlashcardSet.find({ status: 'Published' });
     res.status(200).json(flashcardSets);
-  } catch (error) {
+  }catch (error) {
     res.status(500).send('Error retrieving flashcard sets');
   }
 });
@@ -39,15 +43,28 @@ router.get('/:id', async (req, res) => {
   }
 });
 
-router.post('/', async (req, res) => {
+router.post('/',authmiddleware, async (req, res) => {
+
   const { error } = validateFlashcardSet(req.body);
   if (error) return res.status(400).send(error.details[0].message);
 
   let flashcardSet = new FlashcardSet(req.body);
+  flashcardSet.author = req.user._id;
+
   try {
+
+
     flashcardSet = await flashcardSet.save();
+    let creator = await User.findById(flashcardSet.author);
+    creator.createdFlashCardSets.push(flashcardSet._id);
+    await creator.save();
+
+
+
     res.status(200).send(flashcardSet);
   } catch (ex) {
+
+    console.log({ex});
     res.status(500).send('Error saving flashcard set');
   }
 });

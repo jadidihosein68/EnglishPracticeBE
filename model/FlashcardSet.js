@@ -12,13 +12,14 @@ const FlashcardSet = mongoose.model('FlashcardSet', new mongoose.Schema({
         type: String,
         default: 'Draft'
     },
-    author: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+    author: { type: mongoose.Schema.Types.ObjectId, ref: 'User' }, // we need it to retrive data based on who is the cocreator when we retrive this data :)
     flashcards: [{
         front: String,
         back: String,
         hints: String,
         media: String
     }],
+    co_creators: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],  // Same goes to here  ! 
     createdAt: {
         type: Date,
         default: Date.now
@@ -35,6 +36,8 @@ function validateFlashcardSet(flashcardSet) {
         ispublic: Joi.boolean(),
         status: Joi.string(),
         subject: Joi.string(),
+        author: Joi.string(),
+        co_creators: Joi.array().items(Joi.string()),  co_creators: Joi.array().items(Joi.string()),
         flashcards: Joi.array().items(Joi.object({
         front: Joi.string().required(),
         back: Joi.string().required(),
