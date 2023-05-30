@@ -10,9 +10,13 @@ const { FlashcardSet, validateFlashcardSet } = require('../model/FlashcardSet');
 
 router.get('/workshop',authmiddleware, async (req, res) => {
   try {
-    const flashcardSets = await FlashcardSet.find();
-    res.status(200).json(flashcardSets);
-  } catch (error) {
+    let user = await User.findById(req.user._id)
+    .populate('coCreatedflashcardsets').populate('createdFlashCardSets');
+    let allFlashcardSets = [...user.coCreatedflashcardsets, ...user.createdFlashCardSets];
+    if (!user) return res.status(404).send('User not found');   
+    res.status(200).json(allFlashcardSets);
+  } catch (ex) {
+    console.error(ex);
     res.status(500).send('Error retrieving flashcard sets');
   }
 });
