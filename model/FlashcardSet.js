@@ -25,6 +25,10 @@ const FlashcardSet = mongoose.model('FlashcardSet', new mongoose.Schema({
         default: Date.now
     },
     updatedAt: Date,
+    subscribers: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User'
+    }]
 }));
 
 function validateFlashcardSet(flashcardSet) {
