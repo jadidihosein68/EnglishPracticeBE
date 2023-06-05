@@ -3,6 +3,7 @@ const Joi = require('joi');
 
 const User = mongoose.model('User', new mongoose.Schema({
     name: String,
+    nickname: String,
     email: {
         type: String,
         unique: true
@@ -25,7 +26,7 @@ const User = mongoose.model('User', new mongoose.Schema({
         ref: 'FlashcardSet'
     }],
 
-    createdFlashCardSets: [{ 
+    createdFlashCardSets: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'FlashcardSet'
     }],
@@ -48,6 +49,7 @@ function validateUser(user) {
         name: Joi.string().min(3).required(),
         email: Joi.string().email().required(),
         googleId: Joi.string().required(),
+        nickname: Joi.string(),
         premium: Joi.boolean(),
         bio: Joi.string(),
     };
