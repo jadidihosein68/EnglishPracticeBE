@@ -2,18 +2,24 @@ const express = require('express');
 const mongoose = require('mongoose');
 const router = express.Router();
 const authmiddleware = require("../middleware/auth");
-const {User} = require('../model/user');
+const { User } = require('../model/user');
 
 
 
 const { FlashcardSet, validateFlashcardSet } = require('../model/FlashcardSet');
 
-router.get('/workshop',authmiddleware, async (req, res) => {
+router.get('/workshop', authmiddleware, async (req, res) => {
   try {
     let user = await User.findById(req.user._id)
-    .populate('coCreatedflashcardsets').populate('createdFlashCardSets');
+      .populate('coCreatedflashcardsets').populate({
+        path: 'createdFlashCardSets',
+        populate: {
+          path: 'author',
+          select: 'nickname'
+        }});
+
     let allFlashcardSets = [...user.coCreatedflashcardsets, ...user.createdFlashCardSets];
-    if (!user) return res.status(404).send('User not found');   
+    if (!user) return res.status(404).send('User not found');
     res.status(200).json(allFlashcardSets);
   } catch (ex) {
     console.error(ex);
@@ -26,7 +32,7 @@ router.get('/publishedlist', async (req, res) => { // this specific route is pub
   try {
     const flashcardSets = await FlashcardSet.find({ status: 'Published' });
     res.status(200).json(flashcardSets);
-  }catch (error) {
+  } catch (error) {
     res.status(500).send('Error retrieving flashcard sets');
   }
 });
@@ -37,8 +43,13 @@ router.get('/subscribedFlashCardSets', authmiddleware, async (req, res) => {
   //const setId = req.params.id;
   try {
     // Find the user by their ID
-    const user = await User.findById(userId).populate('subscribedFlashCardSets');
-    
+    const user = await User.findById(userId).populate({
+      path: 'subscribedFlashCardSets',
+      populate: {
+        path: 'author',
+        select: 'nickname'
+      }});
+
     // If the user doesn't exist, return an error
     if (!user) return res.status(404).send('User with the given ID was not found.');
 
@@ -47,7 +58,7 @@ router.get('/subscribedFlashCardSets', authmiddleware, async (req, res) => {
   } catch (ex) {
     // Log the error and send a 500 status code
     ////console.error(ex);
-    console.log({ex});
+    console.log({ ex });
     res.status(500).send('Error retrieving subscriptions');
   }
 });
@@ -58,7 +69,10 @@ router.get('/:id', async (req, res) => {
   const setId = req.params.id;
 
   try {
-    const flashcardSet = await FlashcardSet.findById(setId);
+    const flashcardSet = await FlashcardSet.findById(setId).populate({
+      path: 'author',
+      select: 'nickname'
+    });
 
     if (!flashcardSet) {
       return res.status(404).send('Flashcard set not found');
@@ -72,7 +86,7 @@ router.get('/:id', async (req, res) => {
 
 
 
-router.post('/',authmiddleware, async (req, res) => {
+router.post('/', authmiddleware, async (req, res) => {
 
   const { error } = validateFlashcardSet(req.body);
   if (error) return res.status(400).send(error.details[0].message);
@@ -93,7 +107,7 @@ router.post('/',authmiddleware, async (req, res) => {
     res.status(200).send(flashcardSet);
   } catch (ex) {
 
-    console.log({ex});
+    console.log({ ex });
     res.status(500).send('Error saving flashcard set');
   }
 });
@@ -116,9 +130,9 @@ router.put('/:id', async (req, res) => {
 
 
 
-router.put('/subscribe/:id',authmiddleware, async (req, res) => {
- 
- 
+router.put('/subscribe/:id', authmiddleware, async (req, res) => {
+
+
   const userId = req.user._id;
   try {
     // Find the flashcard set
@@ -199,8 +213,8 @@ router.put('/publish/:id', async (req, res) => {
   try {
     // Find the flashcard set and update the status field
     const flashcardSet = await FlashcardSet.findByIdAndUpdate(
-      req.params.id, 
-      { status: 'Published' }, 
+      req.params.id,
+      { status: 'Published' },
       { new: true }
     );
 
