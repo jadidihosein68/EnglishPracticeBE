@@ -16,5 +16,4 @@ module.exports = function (req, res, next) {  // a middle ware to do something a
     } catch (ex) {
         res.status(400).send('Invalid Token !');
     }
-
 }
