@@ -12,6 +12,6 @@ module.exports = winston.createLogger({
             level: 'error',
             option : { useUnifiedTopology: true }
         })
-        ,new winston.transports.File({filename:'logfile.log'})
+        ,new winston.transports.File({filename:'logfile.log'}) 
     ]
 });
