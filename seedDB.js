@@ -1,6 +1,8 @@
 const mongoose = require('mongoose');
 const config = require('config');
 const { ProductPlan } = require('./model/ProductPlan');
+require('dotenv').config();
+
 
 const data = {
   ProductPlan: [
@@ -39,7 +41,7 @@ const data = {
 };
 
 async function seed() {
-  await mongoose.connect(config.get('db'), {
+  await mongoose.connect(process.env.db, {
     useNewUrlParser: true,
     useUnifiedTopology: true
   });

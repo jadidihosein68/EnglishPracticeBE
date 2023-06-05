@@ -1,5 +1,8 @@
 const jwt = require('jsonwebtoken');
 const config = require('config');
+require('dotenv').config();
+
+
 
 module.exports = function (req, res, next) {  // a middle ware to do something and pass to next function 
    
@@ -7,7 +10,7 @@ module.exports = function (req, res, next) {  // a middle ware to do something a
     if (!token) return res.status(401).send("No token provided !")
 
     try {
-        const decoded = jwt.verify(token, config.get('jwtPrivateKey'));
+        const decoded = jwt.verify(token, process.env.jwtPrivateKey);
         req.user = decoded;
         next();
     } catch (ex) {

@@ -1,9 +1,11 @@
 const config = require('config');
 const mongoose = require('mongoose');
+require('dotenv').config();
+
 
 module.exports = function () {
   mongoose
-    .connect(config.get('db'), {
+    .connect(process.env.db, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
     })
@@ -12,3 +14,4 @@ module.exports = function () {
     })
     .catch((err) => console.log(err.message));
 };
+

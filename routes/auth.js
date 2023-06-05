@@ -1,11 +1,11 @@
-
+require('dotenv').config();
 const express = require('express');
 const router = express.Router();
 const jwt = require('jsonwebtoken');
 const config = require('config');
 const { OAuth2Client } = require('google-auth-library');
 const { User } = require('../model/user');
-const CLIENT_ID = config.get('Google_CLIENT_ID');
+const CLIENT_ID = process.env.Google_CLIENT_ID
 const client = new OAuth2Client(CLIENT_ID);
 
 function jwtGenerator(user) {
@@ -17,7 +17,7 @@ function jwtGenerator(user) {
       // Add any other user information you'd like to include in the token
     };
   
-    const token = jwt.sign(payload, config.get('jwtPrivateKey'), { expiresIn: '1h' });
+    const token = jwt.sign(payload, process.env.jwtPrivateKey, { expiresIn: '1h' });
     return token;
 }
 
