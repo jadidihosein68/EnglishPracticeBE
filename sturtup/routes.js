@@ -6,6 +6,7 @@ const auth = require('../routes/auth');
 const plan = require('../routes/productplan');
 const flashcard = require('../routes/flashcard');
 const flashcardSet = require('../routes/flashcardSet');
+const study = require('../routes/study');
 const tutor = require('../routes/tutor');
 const session = require('../routes/session');
 const subscription = require('../routes/subscription');
@@ -21,6 +22,7 @@ module.exports=function(app){
     app.use('/api/flashcard',flashcard);
     app.use('/api/auth/LoginWithGoogle',auth);
     app.use('/api/flashcardSet',flashcardSet);
+    app.use('/api/study',study);
     app.use('/api/tutor',tutor);
     app.use('/api/session',session);
     app.use('/api/subscription',subscription);
