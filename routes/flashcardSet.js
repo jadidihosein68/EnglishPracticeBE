@@ -30,7 +30,14 @@ router.get('/workshop', authmiddleware, async (req, res) => {
 
 router.get('/publishedlist', async (req, res) => { // this specific route is public and openfor all.
   try {
-    const flashcardSets = await FlashcardSet.find({ status: 'Published' });
+    
+    const flashcardSets = await FlashcardSet.find({ status: 'Published' }).populate({
+      path: 'author',
+      select: 'nickname'
+    });;
+
+
+
     res.status(200).json(flashcardSets);
   } catch (error) {
     res.status(500).send('Error retrieving flashcard sets');
